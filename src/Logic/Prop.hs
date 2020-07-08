@@ -13,10 +13,11 @@ data Prop v = Const Bool
             | DoubleImply (Prop v) (Prop v)
 
 instance Functor Prop where
-  fmap f (Const v) = Const v
-  fmap f (Var v) = Var (f v)
-  fmap f (Not p) = Not (fmap f p)
-  fmap f (And lhp rhp) = And (fmap f lhp) (fmap f rhp)
-  fmap f (Or lhp rhp) = Or (fmap f lhp) (fmap f rhp)
-  fmap f (Imply lhp rhp) = Imply (fmap f lhp) (fmap f rhp)
-  fmap f (DoubleImply lhp rhp) = DoubleImply (fmap f lhp) (fmap f rhp)
+  fmap f = g where
+    g (Const v) = Const v
+    g (Var v) = Var (f v)
+    g (Not p) = Not (g p)
+    g (And lhp rhp) = And (g lhp) (g rhp)
+    g (Or lhp rhp) = Or (g lhp) (g rhp)
+    g (Imply lhp rhp) = Imply (g lhp) (g rhp)
+    g (DoubleImply lhp rhp) = DoubleImply (g lhp) (g rhp)
